@@ -1,4 +1,5 @@
 name: Build TrueLove APK
+
 on:
   push:
     branches: [ main ]
@@ -6,7 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,27 +18,17 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
 
-      - name: Install Flutter manually
-        run: |
-          set -e
-          echo "Installing Flutter 3.13.0..."
-          git clone --depth 1 --branch 3.13.0 https://github.com/flutter/flutter.git $HOME/flutter
-          echo "$HOME/flutter/bin" >> $GITHUB_PATH
-          echo "$HOME/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
-          flutter --version
-        shell: bash
-
-      - name: Cache pub packages
-        uses: actions/cache@v4
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          path: |
-            ~/.pub-cache
-            .dart_tool
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+          flutter-version: '3.13.0'
+          channel: 'stable'
+
+      - name: Check files
+        run: ls -la  # هيطبع لك كل الملفات عشان نتأكد
 
       - name: Install dependencies
         run: flutter pub get
-        working-directory: .
 
       - name: Build APK
         run: |
@@ -46,7 +37,6 @@ jobs:
             --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
             --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
             --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
-        working-directory: .
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
