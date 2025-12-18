@@ -9,7 +9,8 @@ environment:
 dependencies:
   flutter: { sdk: flutter }
   flutter_localizations: { sdk: flutter }
-  backendless_sdk: ^7.3.8          # ← غيّرت من 8.0.0 لـ 7.3.8
+  # هنا التعديل النهائي: استخدم backendless_flutter_sdk أو 7.3.8 بدون ^
+  backendless_sdk: 7.3.8         # ← غيّرت من ^7.3.8 لـ 7.3.8 بدون ^
   flutter_riverpod: ^2.5.1
   flutter_card_swiper: ^7.2.0
   google_mobile_ads: ^7.0.0
