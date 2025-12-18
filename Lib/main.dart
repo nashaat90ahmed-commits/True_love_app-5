@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:backendless_sdk/backendless_sdk.dart';
+import 'package:backendless_flutter_sdk/backendless_flutter_sdk.dart';  // ← التعديل النهائي
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-// ======== المفاتيح من GitHub Secrets (مش مكتوبة هنا) ========
+// ======== المفاتيح من GitHub Secrets ========
 class BackendlessKeys {
   static const String applicationId = String.fromEnvironment('BLAPPID');
   static const String androidApiKey = String.fromEnvironment('BLANDROIDKEY');
