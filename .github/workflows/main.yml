@@ -1,46 +1,55 @@
-steps:
-  - name: Checkout code
-    uses: actions/checkout@v4
+name: Build TrueLove APK
+on:
+  push:
+    branches: [ main ]
 
-  - name: Setup Java
-    uses: actions/setup-java@v3
-    with:
-      distribution: 'zulu'
-      java-version: '11'
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-  - name: Install Flutter manually
-    run: |
-      set -e
-      echo "Installing Flutter 3.13.0..."
-      git clone --depth 1 --branch 3.13.0 https://github.com/flutter/flutter.git $HOME/flutter
-      echo "$HOME/flutter/bin" >> $GITHUB_PATH
-      echo "$HOME/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
-      flutter --version
-    shell: bash
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  - name: Cache pub packages
-    uses: actions/cache@v4
-    with:
-      path: |
-        ~/.pub-cache
-        .dart_tool
-      key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
 
-  - name: Install dependencies
-    run: flutter pub get
-    working-directory: .
+      - name: Install Flutter manually
+        run: |
+          set -e
+          echo "Installing Flutter 3.13.0..."
+          git clone --depth 1 --branch 3.13.0 https://github.com/flutter/flutter.git $HOME/flutter
+          echo "$HOME/flutter/bin" >> $GITHUB_PATH
+          echo "$HOME/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
+          flutter --version
+        shell: bash
 
-  - name: Build APK
-    run: |
-      flutter build apk --release \
-        --dart-define=BLAPPID=${{ secrets.BLAPPID }} \
-        --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
-        --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
-        --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
-    working-directory: .
+      - name: Cache pub packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.pub-cache
+            .dart_tool
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
 
-  - name: Upload APK
-    uses: actions/upload-artifact@v4
-    with:
-      name: TrueLove-APK
-      path: build/app/outputs/flutter-apk/app-release.apk
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: .
+
+      - name: Build APK
+        run: |
+          flutter build apk --release \
+            --dart-define=BLAPPID=${{ secrets.BLAPPID }} \
+            --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
+            --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
+            --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
+        working-directory: .
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TrueLove-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
