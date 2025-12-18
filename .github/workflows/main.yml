@@ -1,51 +1,46 @@
-name: Build TrueLove APK
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v4
 
-on:
-  push:
-    branches: [ main ]
+  - name: Setup Java
+    uses: actions/setup-java@v3
+    with:
+      distribution: 'zulu'
+      java-version: '11'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  - name: Install Flutter manually
+    run: |
+      set -e
+      echo "Installing Flutter 3.13.0..."
+      git clone --depth 1 --branch 3.13.0 https://github.com/flutter/flutter.git $HOME/flutter
+      echo "$HOME/flutter/bin" >> $GITHUB_PATH
+      echo "$HOME/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
+      flutter --version
+    shell: bash
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '11'
+  - name: Cache pub packages
+    uses: actions/cache@v4
+    with:
+      path: |
+        ~/.pub-cache
+        .dart_tool
+      key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
 
-      - name: Setup Flutter
-        name: Install Flutter manually
- run: |
- echo "Installing Flutter 3.13.0..."
- git clone --depth 1 --branch 3.13.0 https://github.com/flutter/flutter.git $HOME/flutter
-    echo "$HOME/flutter/bin" >> $GITHUB_PATH
-    echo "$HOME/flutter/bin/cache/dart-sdk/bin" >> $GITHUB_PATH
- flutter --version
- shell: bash
-        with:
-          flutter-version: 'latest'
-          channel: 'stable'
+  - name: Install dependencies
+    run: flutter pub get
+    working-directory: .
 
-      - name: Install dependencies
-        run: flutter pub get
-        working-directory: .  # هنا التصحيح: خلى Flutter يدخل على المسار الصحيح
+  - name: Build APK
+    run: |
+      flutter build apk --release \
+        --dart-define=BLAPPID=${{ secrets.BLAPPID }} \
+        --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
+        --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
+        --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
+    working-directory: .
 
-      - name: Build APK
-        run: |
-          flutter build apk --release \
-            --dart-define=BLAPPID=${{ secrets.BLAPPID }} \
-            --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
-            --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
-            --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
-        working-directory: .  # هنا التصحيح تاني
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: TrueLove-APK
-          path: build/app/outputs/flutter-apk/app-release.apk
+  - name: Upload APK
+    uses: actions/upload-artifact@v4
+    with:
+      name: TrueLove-APK
+      path: build/app/outputs/flutter-apk/app-release.apk
