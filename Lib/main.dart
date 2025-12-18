@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:backendless_flutter_sdk/backendless_flutter_sdk.dart';  // ← التعديل النهائي
+import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -24,24 +24,6 @@ void main() async {
   );
   
   runApp(const ProviderScope(child: TrueLoveApp()));
-}
-
-class TrueLoveApp extends StatelessWidget {
-  const TrueLoveApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'الحب الحقيقي',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-        scaffoldBackgroundColor: Colors.white,
-        textDirection: TextDirection.rtl,
-      ),
-      home: const SplashScreen(),
-    );
-  }
 }
 
 // ======== SPLASH SCREEN ========
@@ -168,6 +150,6 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
   }
 
   Widget _buildCard(Map<String, dynamic> candidate) {
-    return Container(margin: const EdgeInsets.all(10), decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)]), child: ClipRRect(borderRadius: BorderRadius.circular(20), child: Stack(children: [Image.network(candidate['imageUrl'] ?? 'https://via.placeholder.com/400', width: double.infinity, height: double.infinity, fit: BoxFit.cover), Align(alignment: Alignment.bottomCenter, child: Container(padding: const EdgeInsets.all(20), decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, Colors.black.withOpacity(0.8)])), child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [Row(children: [Text('${candidate['name']}, ${candidate['age']}', style: const TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)), if (candidate['isActive'] == true) ...[const SizedBox(width: 8), Container(width: 10, height: 10, decoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle))]]), Text(candidate['city'] ?? '', style: const TextStyle(color: Colors.white, fontSize: 20)), const SizedBox(height: 8), Text(candidate['bio'] ?? '', style: const TextStyle(color: Colors.white70, fontSize: 16), maxLines: 2, overflow: TextOverflow.ellipsis)]))])))]);
+    return Container(margin: const EdgeInsets.all(10), decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 10)]), child: ClipRRect(borderRadius: BorderRadius.circular(20), child: Stack(children: [Image.network(candidate['imageUrl'] ?? 'https://via.placeholder.com/400', width: double.infinity, height: double.infinity, fit: BoxFit.cover), Align(alignment: Alignment.bottomCenter, child: Container(padding: const EdgeInsets.all(20), decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, Colors.black.withOpacity(0.8)])), child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [Row(children: [Text('${candidate['name']}, ${candidate['age']}', style: TextStyle(color: Colors.white, fontSize: 28, fontWeight: FontWeight.bold)), if (candidate['isActive'] == true) ...[const SizedBox(width: 8), Container(width: 10, height: 10, decoration: BoxDecoration(color: Colors.green, shape: BoxShape.circle))]]), Text(candidate['city'] ?? '', style: const TextStyle(color: Colors.white, fontSize: 20)), const SizedBox(height: 8), Text(candidate['bio'] ?? '', style: const TextStyle(color: Colors.white70, fontSize: 16), maxLines: 2, overflow: TextOverflow.ellipsis)]))])))]);
   }
 }
