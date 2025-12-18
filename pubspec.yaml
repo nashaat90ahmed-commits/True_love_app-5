@@ -1,23 +1,42 @@
-name: true_love_app
-description: تطبيق الحب الحقيقي للمطلقين
-publish_to: 'none'
-version: 1.0.0+1
+name: Build TrueLove APK
 
-environment:
-  sdk: '>=3.2.0 <4.0.0'
+on:
+  push:
+    branches: [ main ]
 
-dependencies:
-  flutter: { sdk: flutter }
-  flutter_localizations: { sdk: flutter }
-  # هنا التعديل النهائي: استخدم backendless_flutter_sdk
-  backendless_flutter_sdk: ^7.3.0
-  flutter_riverpod: ^2.5.1
-  flutter_card_swiper: ^7.2.0
-  google_mobile_ads: ^7.0.0
-  cached_network_image: ^3.4.1
-  image_picker: ^1.2.1
-  shared_preferences: ^2.5.4
-  intl: ^0.18.1
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-flutter:
-  uses-material-design: true
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.16.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: |
+          flutter build apk --release \
+            --dart-define=BLAPPID=${{ secrets.BLAPPID }} \
+            --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
+            --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
+            --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TrueLove-APK
+          path: build/app/outputs/flutter-apk/app-release.apk
