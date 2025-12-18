@@ -1,0 +1,13 @@
+# هذا ملف APK نموذجي للتطبيق
+# للحصول على APK حقيقي، يجب بناء المشروع باستخدام Flutter
+#
+# الخطوات:
+# 1. flutter clean
+# 2. flutter pub get
+# 3. flutter build apk --release
+#
+# الملف النهائي سيكون في:
+# build/app/outputs/flutter-apk/app-release.apk
+#
+# ملاحظة: هذا الملف هو للتوثيق فقط ويجب استبداله بـ APK حقيقي
+# بعد بناء المشروع.

@@ -1,0 +1,90 @@
+# Dart
+.dart_tool/
+.packages
+build/
+flutter_*.png
+linked_*.ds
+unlinked.ds
+unlinked_spec.ds
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Android
+.gradle/
+android/.gradle/
+android/captures/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/.idea/
+android/app/debug/
+android/app/profile/
+android/app/release/
+android/key.properties
+*.jks
+*.keystore
+
+# iOS
+ios/.symlinks/
+ios/Flutter/flutter_export_environment.sh
+ios/ServiceDefinitions.json
+ios/Runner/GeneratedPluginRegistrant.*
+ios/Pods/
+ios/.idea/
+ios/Flutter/App.framework/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec/
+ios/Flutter/Generated.xcconfig/
+ios/Flutter/ephemeral/
+
+# Web
+web/.idea/
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+pubspec.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.production
+
+# Logs
+*.log
+logs/
+
+# Test
+coverage/
+test_results/
+
+# Firebase service account
+serviceAccountKey.json
+
+# Android Studio
+*.iml
+*.ipr
+*.iws
+.android/
+.android/
+
+# Flutter
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Generated
+*.g.dart
+*.freezed.dart
+*.config.dart
