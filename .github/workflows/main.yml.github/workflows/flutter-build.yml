@@ -26,6 +26,7 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: .  # هنا التصحيح: خلى Flutter يدخل على المسار الصحيح
 
       - name: Build APK
         run: |
@@ -34,6 +35,7 @@ jobs:
             --dart-define=BLANDROIDKEY=${{ secrets.BLANDROIDKEY }} \
             --dart-define=BLIOSKEY=${{ secrets.BLIOSKEY }} \
             --dart-define=BLJSKEY=${{ secrets.BLJSKEY }}
+        working-directory: .  # هنا التصحيح تاني
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
