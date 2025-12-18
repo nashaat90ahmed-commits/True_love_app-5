@@ -21,11 +21,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.16.0'
+          flutter-version: '3.16.0'  # ← غيّرت من 3.13.0 لـ 3.16.0
           channel: 'stable'
-
-      - name: Check files
-        run: ls -la  # هيطبع لك كل الملفات عشان نتأكد
 
       - name: Install dependencies
         run: flutter pub get
